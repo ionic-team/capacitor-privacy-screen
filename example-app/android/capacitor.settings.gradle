@@ -12,7 +12,7 @@ include ':capacitor-keyboard'
 project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor/keyboard/android')
 
 include ':capacitor-privacy-screen'
-project(':capacitor-privacy-screen').projectDir = new File('../../android')
+project(':capacitor-privacy-screen').projectDir = new File('../node_modules/@capacitor/privacy-screen/android')
 
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')

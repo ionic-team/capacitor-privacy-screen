@@ -11,11 +11,11 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "disable", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isEnabled", returnType: CAPPluginReturnPromise)
     ]
-    
+
     private var isEnabled = false
     private var screenProtectionViewController: UIViewController?
     private var blurEffect: UIBlurEffect.Style?
-    
+
     override public func load() {
         NotificationCenter.default.addObserver(
             self,
@@ -23,7 +23,7 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
             name: UIApplication.didBecomeActiveNotification,
             object: nil
         )
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationWillResignActive),
@@ -31,7 +31,7 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
             object: nil
         )
     }
-    
+
     @objc func enable(_ call: CAPPluginCall) {
         if let config = call.getObject("ios"),
            let blurEffectString = config["blurEffect"] as? String {
@@ -44,48 +44,48 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
                 blurEffect = nil
             }
         }
-        
+
         isEnabled = true
         call.resolve(["success": true])
     }
-    
+
     @objc func disable(_ call: CAPPluginCall) {
         isEnabled = false
         unobscureScreen()
         call.resolve(["success": true])
     }
-    
+
     @objc func isEnabled(_ call: CAPPluginCall) {
         call.resolve(["enabled": isEnabled])
     }
-    
+
     private func obscureScreen() {
         guard let window = getKeyWindow(),
               var topViewController = window.rootViewController else {
             return
         }
-        
+
         while let presentedVC = topViewController.presentedViewController {
             topViewController = presentedVC
         }
-        
+
         if screenProtectionViewController == nil {
             let protectionVC = createProtectionViewController()
             topViewController.present(protectionVC, animated: false)
             screenProtectionViewController = protectionVC
         }
     }
-    
+
     private func unobscureScreen() {
         screenProtectionViewController?.dismiss(animated: false)
         screenProtectionViewController = nil
     }
-    
+
     private func createProtectionViewController() -> UIViewController {
         let viewController = UIViewController()
         viewController.modalPresentationStyle = .overFullScreen
         viewController.view.isUserInteractionEnabled = false
-        
+
         if let blurEffect = blurEffect {
             let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: blurEffect))
             blurEffectView.frame = UIScreen.main.bounds
@@ -94,7 +94,7 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
         } else {
             let contentView = UIView(frame: UIScreen.main.bounds)
             contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            
+
             if let launchImage = UIImage(named: "LaunchImage") ?? UIImage(named: "Splash") {
                 let imageView = UIImageView(image: launchImage)
                 imageView.frame = contentView.bounds
@@ -109,13 +109,13 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
                     contentView.backgroundColor = .white
                 }
             }
-            
+
             viewController.view = contentView
         }
-        
+
         return viewController
     }
-    
+
     private func getKeyWindow() -> UIWindow? {
         if #available(iOS 13.0, *) {
             return UIApplication.shared.connectedScenes
@@ -128,17 +128,17 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
             return UIApplication.shared.windows.first { $0.isKeyWindow }
         }
     }
-    
+
     @objc private func applicationDidBecomeActive(_ notification: NSNotification) {
         unobscureScreen()
     }
-    
+
     @objc private func applicationWillResignActive(_ notification: NSNotification) {
         if isEnabled {
             obscureScreen()
         }
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
