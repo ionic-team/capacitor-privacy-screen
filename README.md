@@ -13,25 +13,67 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`enable(...)`](#enable)
+* [`disable()`](#disable)
+* [`isEnabled()`](#isenabled)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### enable(...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+enable(config?: PrivacyScreenConfig | undefined) => Promise<{ success: boolean; }>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+Enable privacy screen protection
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+| Param        | Type                                                                | Description                                           |
+| ------------ | ------------------------------------------------------------------- | ----------------------------------------------------- |
+| **`config`** | <code><a href="#privacyscreenconfig">PrivacyScreenConfig</a></code> | Optional configuration for platform-specific behavior |
+
+**Returns:** <code>Promise&lt;{ success: boolean; }&gt;</code>
 
 --------------------
+
+
+### disable()
+
+```typescript
+disable() => Promise<{ success: boolean; }>
+```
+
+Disable privacy screen protection
+
+**Returns:** <code>Promise&lt;{ success: boolean; }&gt;</code>
+
+--------------------
+
+
+### isEnabled()
+
+```typescript
+isEnabled() => Promise<{ enabled: boolean; }>
+```
+
+Check if privacy screen is currently enabled
+
+**Returns:** <code>Promise&lt;{ enabled: boolean; }&gt;</code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### PrivacyScreenConfig
+
+| Prop          | Type                                                       |
+| ------------- | ---------------------------------------------------------- |
+| **`android`** | <code>{ dimBackground?: boolean; }</code>                  |
+| **`ios`**     | <code>{ blurEffect?: 'light' \| 'dark' \| 'none'; }</code> |
 
 </docgen-api>

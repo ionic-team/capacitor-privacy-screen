@@ -1,10 +1,24 @@
 import { WebPlugin } from '@capacitor/core';
+import type { PrivacyScreenConfig, PrivacyScreenPlugin } from './definitions';
 
-import type { PrivacyScreenPluginPlugin } from './definitions';
+export class PrivacyScreenWeb extends WebPlugin implements PrivacyScreenPlugin {
+  private enabled: boolean = false;
 
-export class PrivacyScreenPluginWeb extends WebPlugin implements PrivacyScreenPluginPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+  async enable(_config?: PrivacyScreenConfig): Promise<{ success: boolean }> {
+    this.enabled = true;
+    console.warn('Privacy Screen protection is not available on web platforms');
+    return { success: false };
+  }
+
+  async disable(): Promise<{ success: boolean }> {
+    this.enabled = false;
+    console.warn('Privacy Screen protection is not available on web platforms');
+    return { success: false };
+  }
+
+  async isEnabled(): Promise<{ enabled: boolean }> {
+    return {
+      enabled: this.enabled
+    };
   }
 }
