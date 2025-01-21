@@ -45,6 +45,7 @@ class PrivacyScreenDialog(
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         this.hide()
+        // Dismiss must run on next loop to avoid race condition
         Handler(Looper.getMainLooper()).postDelayed({
             this.dismiss()
         }, 0)

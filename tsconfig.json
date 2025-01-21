@@ -10,7 +10,8 @@
     "lib": ["dom", "es2020"],
     "module": "esnext",
     "moduleResolution": "node",
-    "target": "es2017"
+    "target": "es2017",
+    "noEmit": true
   },
   "files": [
     "src/index.ts"

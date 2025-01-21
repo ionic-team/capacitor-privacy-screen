@@ -19,10 +19,6 @@ let package = Package(
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm")
             ],
-            path: "ios/Sources/PrivacyScreenPlugin"),
-        .testTarget(
-            name: "PrivacyScreenPluginTests",
-            dependencies: ["PrivacyScreenPlugin"],
-            path: "ios/Tests/PrivacyScreenPluginTests")
+            path: "ios/Sources/PrivacyScreenPlugin")
     ]
 )

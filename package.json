@@ -1,6 +1,6 @@
 {
   "name": "@capacitor/privacy-screen",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "The Privacy Screen plugin provides functionality to prevent sensitive information from being visible in app switchers and when leaving an app.",
   "main": "./dist/plugin.cjs",
   "module": "./dist/plugin.mjs",
@@ -19,7 +19,6 @@
     "android/build.gradle",
     "dist/",
     "ios/Sources",
-    "ios/Tests",
     "Package.swift",
     "CapacitorPrivacyScreen.podspec"
   ],

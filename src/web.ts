@@ -13,7 +13,7 @@ export class PrivacyScreenWeb extends WebPlugin implements PrivacyScreenPlugin {
   async disable(): Promise<{ success: boolean }> {
     this.enabled = false;
     console.warn('Privacy Screen protection is not available on web platforms');
-    return { success: false };
+    return { success: true };
   }
 
   async isEnabled(): Promise<{ enabled: boolean }> {

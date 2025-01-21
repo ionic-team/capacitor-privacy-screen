@@ -16,13 +16,13 @@ import com.getcapacitor.annotation.CapacitorPlugin
 
 private const val ACTION_CLOSE_SYSTEM_DIALOGS = "android.intent.action.CLOSE_SYSTEM_DIALOGS"
 private const val SYSTEM_DIALOG_REASON_KEY = "reason"
-private const val SYSTEM_DIALOG_REASON_HOME_KEY = "homekey"
 private const val SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps"
 private const val SYSTEM_DIALOG_REASON_RECENT_APPS_XIAOMI = "fs_gesture"
 
 @CapacitorPlugin(name = "PrivacyScreen")
 class PrivacyScreenPlugin : Plugin() {
     private var privacyScreenEnabled = false
+    private var preventScreenshots = false
     private var dimBackground = false
     private var dialog: PrivacyScreenDialog? = null
 
@@ -33,7 +33,6 @@ class PrivacyScreenPlugin : Plugin() {
                 val reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY)
                 if (reason != null) {
                     when (reason) {
-                        SYSTEM_DIALOG_REASON_HOME_KEY,
                         SYSTEM_DIALOG_REASON_RECENT_APPS,
                         SYSTEM_DIALOG_REASON_RECENT_APPS_XIAOMI -> onRecentAppsTriggered(true)
                     }
@@ -58,9 +57,14 @@ class PrivacyScreenPlugin : Plugin() {
         try {
             val config = call.getObject("android")
             dimBackground = config?.optBoolean("dimBackground") ?: false
+            preventScreenshots = config?.optBoolean("preventScreenshots") ?: false
 
             activity.runOnUiThread {
-                activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                if (preventScreenshots) {
+                    activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                } else {
+                    activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                }
                 privacyScreenEnabled = true
                 dialog = PrivacyScreenDialog(activity, dimBackground)
 
@@ -78,8 +82,12 @@ class PrivacyScreenPlugin : Plugin() {
     @PluginMethod
     fun disable(call: PluginCall) {
         privacyScreenEnabled = false
-        dialog?.dismiss()
-        dialog = null
+        preventScreenshots = false
+        activity.runOnUiThread {
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            dialog?.dismiss()
+            dialog = null
+        }
         val ret = JSObject()
         ret.put("success", true)
         call.resolve(ret)
@@ -95,10 +103,10 @@ class PrivacyScreenPlugin : Plugin() {
     override fun handleOnResume() {
         super.handleOnResume()
         onRecentAppsTriggered(false)
-        if (!usesGestureNavigation(context)) {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        } else if (privacyScreenEnabled) {
+        if (preventScreenshots) {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        } else {
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 
@@ -116,12 +124,11 @@ class PrivacyScreenPlugin : Plugin() {
                 dialog = null
             }
             context.let { context ->
-                dialog = PrivacyScreenDialog(context, dimBackground)
-
                 if (context is AppCompatActivity &&
                     !context.isFinishing &&
                     dialog?.isShowing != true &&
                     !isDialogViewAttachedToWindowManager()) {
+                    dialog = PrivacyScreenDialog(context, dimBackground)
                     dialog?.show()
                 }
             }

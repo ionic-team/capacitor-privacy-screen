@@ -7,6 +7,14 @@ export interface PrivacyScreenConfig {
      * @default false
      */
     dimBackground?: boolean;
+
+    /**
+     * Controls whether screenshots can be taken while the app is in use.
+     * This uses `FLAG_SECURE` so it will also prevent the window from being displayed on a non-secure display, such as a TV or projector.`
+     * Note: Privacy screen protection in app switcher is always enabled when the plugin is enabled.
+     * @default false
+     */
+    preventScreenshots?: boolean;
   };
   ios?: {
     /**

@@ -117,16 +117,12 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func getKeyWindow() -> UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .filter { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
-                .compactMap { $0 as? UIWindowScene }
-                .first?
-                .windows
-                .first { $0.isKeyWindow }
-        } else {
-            return UIApplication.shared.windows.first { $0.isKeyWindow }
-        }
+        return UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
+            .compactMap { $0 as? UIWindowScene }
+            .first?
+            .windows
+            .first { $0.isKeyWindow }
     }
 
     @objc private func applicationDidBecomeActive(_ notification: NSNotification) {

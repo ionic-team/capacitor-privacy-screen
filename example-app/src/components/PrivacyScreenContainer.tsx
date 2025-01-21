@@ -9,6 +9,7 @@ interface ContainerProps { }
 const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const [dimBackground, setDimBackground] = useState<boolean>(false);
+  const [preventScreenshots, setPreventScreenshots] = useState<boolean>(false);
   const [blurEffect, setBlurEffect] = useState<'none' | 'light' | 'dark'>('none');
   const [lastActionSuccess, setLastActionSuccess] = useState<boolean | null>(null);
   const isPlatformIOS = Capacitor.getPlatform() === 'ios';
@@ -21,7 +22,7 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
     if (isEnabled) {
       handleEnable();
     }
-  }, [dimBackground, blurEffect]);
+  }, [preventScreenshots, dimBackground, blurEffect]);
 
   const checkPrivacyScreenStatus = async () => {
     const { enabled } = await PrivacyScreen.isEnabled();
@@ -31,7 +32,8 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
   const handleEnable = async () => {
     const config: PrivacyScreenConfig = {
       android: {
-        dimBackground
+        dimBackground,
+        preventScreenshots
       },
       ios: {
         blurEffect
@@ -68,13 +70,22 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
 
       <IonList>
         {!isPlatformIOS && (
-          <IonItem>
-            <IonLabel>Dim Background (Android)</IonLabel>
-            <IonToggle 
-              checked={dimBackground}
-              onIonChange={e => setDimBackground(e.detail.checked)}
-            />
-          </IonItem>
+          <>
+            <IonItem>
+              <IonLabel>Dim Background (Android)</IonLabel>
+              <IonToggle 
+                checked={dimBackground}
+                onIonChange={e => setDimBackground(e.detail.checked)}
+              />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Prevent Screenshots (Android)</IonLabel>
+              <IonToggle 
+                checked={preventScreenshots}
+                onIonChange={e => setPreventScreenshots(e.detail.checked)}
+              />
+            </IonItem>
+          </>
         )}
         
         {isPlatformIOS && (

@@ -9,6 +9,13 @@ npm install @capacitor/privacy-screen
 npx cap sync
 ```
 
+### Platform Notes
+
+#### Android
+The privacy screen behavior on Android varies depending on the navigation method used:
+- When using gesture navigation or the recent apps button, the privacy screen will display as configured
+- When using the home button to exit the app, the system must fall back to using [`FLAG_SECURE`](https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SECURE) as it's the only way to prevent content visibility in this scenario
+
 ## API
 
 <docgen-index>
@@ -71,9 +78,10 @@ Check if privacy screen is currently enabled
 
 #### PrivacyScreenConfig
 
-| Prop          | Type                                                       |
-| ------------- | ---------------------------------------------------------- |
-| **`android`** | <code>{ dimBackground?: boolean; }</code>                  |
-| **`ios`**     | <code>{ blurEffect?: 'light' \| 'dark' \| 'none'; }</code> |
+| Prop          | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`android`** | <code>{ dimBackground?: boolean; preventScreenshots?: boolean; }</code> |
+| **`ios`**     | <code>{ blurEffect?: 'light' \| 'dark' \| 'none'; }</code>              |
+
 
 </docgen-api>
