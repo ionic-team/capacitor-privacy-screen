@@ -2,6 +2,8 @@
 
 The Privacy Screen plugin provides functionality to prevent sensitive information from being visible in app switchers and when leaving an app.
 
+> **Note:** This plugin is supported on Android and iOS platforms only. It is not available for web platforms.
+
 ## Install
 
 ```bash
@@ -82,6 +84,5 @@ Check if privacy screen is currently enabled
 | ------------- | ----------------------------------------------------------------------- |
 | **`android`** | <code>{ dimBackground?: boolean; preventScreenshots?: boolean; }</code> |
 | **`ios`**     | <code>{ blurEffect?: 'light' \| 'dark' \| 'none'; }</code>              |
-
 
 </docgen-api>
