@@ -1,0 +1,19 @@
+name: "Basic Tests"
+
+on:
+  pull_request:
+    types:
+      - 'synchronize'
+      - 'opened'
+
+jobs:
+  setup:
+    uses: ./.github/workflows/reusable_setup.yml
+
+  lint-test:
+    needs: 'setup'
+    uses: ./.github/workflows/reusable_lint.yml
+
+  build-packages:
+    needs: 'setup'
+    uses: ./.github/workflows/reusable_build.yml
