@@ -1,6 +1,6 @@
 {
   "name": "@capacitor/privacy-screen",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The Privacy Screen plugin provides functionality to prevent sensitive information from being visible in app switchers and when leaving an app.",
   "main": "./dist/plugin.cjs",
   "module": "./dist/plugin.mjs",
@@ -37,7 +37,7 @@
     "native"
   ],
   "scripts": {
-"verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
+    "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "xcodebuild -scheme CapacitorPrivacyScreen -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
