@@ -114,27 +114,34 @@ class PrivacyScreenPlugin : Plugin() {
         super.handleOnPause()
         if (privacyScreenEnabled) {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            if (dimBackground) {
+                showPrivacyDialog()
+            }
         }
     }
 
     private fun onRecentAppsTriggered(isRecentAppsOpen: Boolean) {
         if (privacyScreenEnabled && isRecentAppsOpen) {
-            if (dialog != null && isDialogViewAttachedToWindowManager()) {
-                dialog?.dismiss()
-                dialog = null
-            }
-            context.let { context ->
-                if (context is AppCompatActivity &&
-                    !context.isFinishing &&
-                    dialog?.isShowing != true &&
-                    !isDialogViewAttachedToWindowManager()) {
-                    dialog = PrivacyScreenDialog(context, dimBackground)
-                    dialog?.show()
-                }
-            }
+            showPrivacyDialog()
         } else {
             dialog?.dismiss()
             dialog = null
+        }
+    }
+
+    private fun showPrivacyDialog() {
+        if (dialog != null && isDialogViewAttachedToWindowManager()) {
+            dialog?.dismiss()
+            dialog = null
+        }
+        context.let { context ->
+            if (context is AppCompatActivity &&
+                !context.isFinishing &&
+                dialog?.isShowing != true &&
+                !isDialogViewAttachedToWindowManager()) {
+                dialog = PrivacyScreenDialog(context, dimBackground)
+                dialog?.show()
+            }
         }
     }
 
