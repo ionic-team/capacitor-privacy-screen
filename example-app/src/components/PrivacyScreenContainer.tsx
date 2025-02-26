@@ -1,6 +1,7 @@
 import { IonButton, IonToggle, IonItem, IonLabel, IonList, IonSelect, IonSelectOption } from '@ionic/react';
 import { useState, useEffect } from 'react';
 import { PrivacyScreen, PrivacyScreenConfig } from '@capacitor/privacy-screen';
+import { Device } from '@ionic-enterprise/identity-vault';
 import './PrivacyScreenContainer.css';
 import { Capacitor } from '@capacitor/core';
 
@@ -9,6 +10,7 @@ interface ContainerProps { }
 const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const [dimBackground, setDimBackground] = useState<boolean>(false);
+  const [privacyModeOnActivityHidden, setPrivacyModeOnActivityHidden] = useState<'none' | 'dim' | 'splash'>('none');
   const [preventScreenshots, setPreventScreenshots] = useState<boolean>(false);
   const [blurEffect, setBlurEffect] = useState<'none' | 'light' | 'dark'>('none');
   const [lastActionSuccess, setLastActionSuccess] = useState<boolean | null>(null);
@@ -22,7 +24,7 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
     if (isEnabled) {
       handleEnable();
     }
-  }, [preventScreenshots, dimBackground, blurEffect]);
+  }, [preventScreenshots, dimBackground, blurEffect, privacyModeOnActivityHidden]);
 
   const checkPrivacyScreenStatus = async () => {
     const { enabled } = await PrivacyScreen.isEnabled();
@@ -33,7 +35,8 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
     const config: PrivacyScreenConfig = {
       android: {
         dimBackground,
-        preventScreenshots
+        preventScreenshots,
+        privacyModeOnActivityHidden
       },
       ios: {
         blurEffect
@@ -48,6 +51,15 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
     const { success } = await PrivacyScreen.disable();
     setLastActionSuccess(success);
     await checkPrivacyScreenStatus();
+  };
+
+  const showBiometricPrompt = async () => {
+    try {
+      await Device.showBiometricPrompt({});
+      console.log('Biometric authentication successful');
+    } catch (error) {
+      console.log('Biometric authentication failed or was cancelled', error);
+    }
   };
 
   return (
@@ -84,6 +96,17 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
                 checked={preventScreenshots}
                 onIonChange={e => setPreventScreenshots(e.detail.checked)}
               />
+            </IonItem>
+            <IonItem>
+              <IonLabel>Privacy Mode on Activity Hidden (Android)</IonLabel>
+              <IonSelect 
+                value={privacyModeOnActivityHidden}
+                onIonChange={e => setPrivacyModeOnActivityHidden(e.detail.value)}
+              >
+                <IonSelectOption value="none">None</IonSelectOption>
+                <IonSelectOption value="dim">Dim</IonSelectOption>
+                <IonSelectOption value="splash">Splash</IonSelectOption>
+              </IonSelect>
             </IonItem>
           </>
         )}
@@ -127,6 +150,14 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
           onClick={checkPrivacyScreenStatus}
         >
           Refresh Status
+        </IonButton>
+
+        <IonButton 
+          expand="block"
+          color="tertiary"
+          onClick={showBiometricPrompt}
+        >
+          Test Biometric Prompt
         </IonButton>
       </div>
     </div>
