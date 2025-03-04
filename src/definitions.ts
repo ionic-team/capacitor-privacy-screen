@@ -4,6 +4,7 @@ export interface PrivacyScreenConfig {
      * Controls how the app appears when the privacy screen is being displayed.
      * When true, the app will be dimmed to obscure its content.
      * When false, the app will show the splash screen if available, otherwise falling back to dimming.
+     * Note: This only applies to the app switcher privacy screen. For activity background behavior, see privacyModeOnActivityHidden.
      * @default false
      */
     dimBackground?: boolean;
@@ -15,6 +16,15 @@ export interface PrivacyScreenConfig {
      * @default false
      */
     preventScreenshots?: boolean;
+
+    /**
+     * Controls how the app appears when the activity goes to background (e.g. when showing system dialogs like a biometric prompt activity).
+     * - 'none': No privacy screen is shown
+     * - 'dim': The app will be dimmed to obscure its content
+     * - 'splash': The app will show the splash screen if available, otherwise falling back to dimming
+     * @default 'none'
+     */
+    privacyModeOnActivityHidden?: 'none' | 'dim' | 'splash';
   };
   ios?: {
     /**

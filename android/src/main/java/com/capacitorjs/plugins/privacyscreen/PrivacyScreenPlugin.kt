@@ -19,11 +19,18 @@ private const val SYSTEM_DIALOG_REASON_KEY = "reason"
 private const val SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps"
 private const val SYSTEM_DIALOG_REASON_RECENT_APPS_XIAOMI = "fs_gesture"
 
+enum class PrivacyMode {
+    NONE,
+    DIM,
+    SPLASH
+}
+
 @CapacitorPlugin(name = "PrivacyScreen")
 class PrivacyScreenPlugin : Plugin() {
     private var privacyScreenEnabled = false
     private var preventScreenshots = false
     private var dimBackground = false
+    private var privacyModeOnActivityHidden = PrivacyMode.NONE
     private var dialog: PrivacyScreenDialog? = null
 
     private val recentAppsReceiver = object : BroadcastReceiver() {
@@ -58,6 +65,11 @@ class PrivacyScreenPlugin : Plugin() {
             val config = call.getObject("android")
             dimBackground = config?.optBoolean("dimBackground") ?: false
             preventScreenshots = config?.optBoolean("preventScreenshots") ?: false
+            privacyModeOnActivityHidden = when (config?.optString("privacyModeOnActivityHidden", "none")) {
+                "dim" -> PrivacyMode.DIM
+                "splash" -> PrivacyMode.SPLASH
+                else -> PrivacyMode.NONE
+            }
 
             activity.runOnUiThread {
                 if (preventScreenshots) {
@@ -83,6 +95,7 @@ class PrivacyScreenPlugin : Plugin() {
     fun disable(call: PluginCall) {
         privacyScreenEnabled = false
         preventScreenshots = false
+        privacyModeOnActivityHidden = PrivacyMode.NONE
         activity.runOnUiThread {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             dialog?.dismiss()
@@ -114,27 +127,36 @@ class PrivacyScreenPlugin : Plugin() {
         super.handleOnPause()
         if (privacyScreenEnabled) {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            when (privacyModeOnActivityHidden) {
+                PrivacyMode.DIM -> showPrivacyDialog(true)
+                PrivacyMode.SPLASH -> showPrivacyDialog(false)
+                PrivacyMode.NONE -> {}
+            }
         }
     }
 
     private fun onRecentAppsTriggered(isRecentAppsOpen: Boolean) {
         if (privacyScreenEnabled && isRecentAppsOpen) {
-            if (dialog != null && isDialogViewAttachedToWindowManager()) {
-                dialog?.dismiss()
-                dialog = null
-            }
-            context.let { context ->
-                if (context is AppCompatActivity &&
-                    !context.isFinishing &&
-                    dialog?.isShowing != true &&
-                    !isDialogViewAttachedToWindowManager()) {
-                    dialog = PrivacyScreenDialog(context, dimBackground)
-                    dialog?.show()
-                }
-            }
+            showPrivacyDialog(dimBackground)
         } else {
             dialog?.dismiss()
             dialog = null
+        }
+    }
+
+    private fun showPrivacyDialog(dim: Boolean) {
+        if (dialog != null && isDialogViewAttachedToWindowManager()) {
+            dialog?.dismiss()
+            dialog = null
+        }
+        context.let { context ->
+            if (context is AppCompatActivity &&
+                !context.isFinishing &&
+                dialog?.isShowing != true &&
+                !isDialogViewAttachedToWindowManager()) {
+                dialog = PrivacyScreenDialog(context, dim)
+                dialog?.show()
+            }
         }
     }
 
