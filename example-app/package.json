@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@capacitor/app": "next",
-    "@capacitor/core": "next",
+    "@capacitor/core": "8.0.0-alpha.2",
     "@capacitor/haptics": "next",
     "@capacitor/keyboard": "next",
     "@capacitor/privacy-screen": "file:../",
@@ -28,7 +28,7 @@
     "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
-    "@capacitor/cli": "next",
+    "@capacitor/cli": "8.0.0-alpha.2",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-legacy": "^5.0.0",
