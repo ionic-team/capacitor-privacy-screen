@@ -13,6 +13,7 @@
     "@capacitor/app": "next",
     "@capacitor/core": "next",
     "@capacitor/haptics": "next",
+    "@capacitor/ios": "next",
     "@capacitor/keyboard": "next",
     "@capacitor/privacy-screen": "file:../",
     "@capacitor/status-bar": "next",
