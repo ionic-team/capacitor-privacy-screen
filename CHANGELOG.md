@@ -1,3 +1,10 @@
+# [2.0.0-next.2](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.1...v2.0.0-next.2) (2025-10-15)
+
+
+### Bug Fixes
+
+* **android:** replace kotlinOptions to support Kotlin 2.2.0 ([359e5f3](https://github.com/ionic-team/capacitor-privacy-screen/commit/359e5f3496ebdf571b03628b4c0d07ef617b5e69))
+
 # [2.0.0-next.1](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.1...v2.0.0-next.1) (2025-09-09)
 
 
