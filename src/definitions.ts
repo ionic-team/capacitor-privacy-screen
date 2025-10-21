@@ -12,7 +12,7 @@ export interface PrivacyScreenConfig {
     /**
      * @deprecated This option is no longer necessary. FLAG_SECURE is now always applied when the privacy screen is enabled,
      * which prevents screenshots and protects content in the app switcher. This option will be removed in a future version.
-     * 
+     *
      * If you need to control screenshot prevention separately, you can enable/disable the plugin as needed per screen.
      */
     preventScreenshots?: boolean;
