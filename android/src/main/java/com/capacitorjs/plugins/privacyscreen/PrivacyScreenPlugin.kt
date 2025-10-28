@@ -28,15 +28,13 @@ enum class PrivacyMode {
 @CapacitorPlugin(name = "PrivacyScreen")
 class PrivacyScreenPlugin : Plugin() {
     private var privacyScreenEnabled = false
-    private var preventScreenshots = false
     private var dimBackground = false
     private var privacyModeOnActivityHidden = PrivacyMode.NONE
     private var dialog: PrivacyScreenDialog? = null
 
     private val recentAppsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if ((Build.VERSION.SDK_INT >= 31 || usesGestureNavigation(context)) &&
-                ACTION_CLOSE_SYSTEM_DIALOGS == intent.action) {
+            if (ACTION_CLOSE_SYSTEM_DIALOGS == intent.action) {
                 val reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY)
                 if (reason != null) {
                     when (reason) {
@@ -64,7 +62,6 @@ class PrivacyScreenPlugin : Plugin() {
         try {
             val config = call.getObject("android")
             dimBackground = config?.optBoolean("dimBackground") ?: false
-            preventScreenshots = config?.optBoolean("preventScreenshots") ?: false
             privacyModeOnActivityHidden = when (config?.optString("privacyModeOnActivityHidden", "none")) {
                 "dim" -> PrivacyMode.DIM
                 "splash" -> PrivacyMode.SPLASH
@@ -72,11 +69,7 @@ class PrivacyScreenPlugin : Plugin() {
             }
 
             activity.runOnUiThread {
-                if (preventScreenshots) {
-                    activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-                } else {
-                    activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-                }
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
                 privacyScreenEnabled = true
                 dialog = PrivacyScreenDialog(activity, dimBackground)
 
@@ -94,7 +87,6 @@ class PrivacyScreenPlugin : Plugin() {
     @PluginMethod
     fun disable(call: PluginCall) {
         privacyScreenEnabled = false
-        preventScreenshots = false
         privacyModeOnActivityHidden = PrivacyMode.NONE
         activity.runOnUiThread {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
@@ -116,17 +108,11 @@ class PrivacyScreenPlugin : Plugin() {
     override fun handleOnResume() {
         super.handleOnResume()
         onRecentAppsTriggered(false)
-        if (preventScreenshots) {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        } else {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        }
     }
 
     override fun handleOnPause() {
         super.handleOnPause()
         if (privacyScreenEnabled) {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
             when (privacyModeOnActivityHidden) {
                 PrivacyMode.DIM -> showPrivacyDialog(true)
                 PrivacyMode.SPLASH -> showPrivacyDialog(false)
@@ -145,15 +131,17 @@ class PrivacyScreenPlugin : Plugin() {
     }
 
     private fun showPrivacyDialog(dim: Boolean) {
-        if (dialog != null && isDialogViewAttachedToWindowManager()) {
+        if (dialog?.isShowing == true || isDialogViewAttachedToWindowManager()) {
+            return
+        }
+
+        if (dialog != null) {
             dialog?.dismiss()
             dialog = null
         }
+
         context.let { context ->
-            if (context is AppCompatActivity &&
-                !context.isFinishing &&
-                dialog?.isShowing != true &&
-                !isDialogViewAttachedToWindowManager()) {
+            if (context is AppCompatActivity && !context.isFinishing) {
                 dialog = PrivacyScreenDialog(context, dim)
                 dialog?.show()
             }
@@ -162,13 +150,6 @@ class PrivacyScreenPlugin : Plugin() {
 
     private fun isDialogViewAttachedToWindowManager(): Boolean {
         return dialog?.window?.decorView?.parent != null
-    }
-
-    @SuppressLint("DiscouragedApi")
-    private fun usesGestureNavigation(context: Context): Boolean {
-        val resources = context.resources
-        val resourceId = resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
-        return resourceId > 0 && resources.getInteger(resourceId) == 2
     }
 
     override fun handleOnDestroy() {

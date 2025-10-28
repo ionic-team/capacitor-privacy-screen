@@ -55,11 +55,11 @@
     "semantic-release": "semantic-release"
   },
   "devDependencies": {
-    "@capacitor/android": "next",
-    "@capacitor/cli": "next",
-    "@capacitor/core": "next",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
     "@capacitor/docgen": "^0.3.0",
-    "@capacitor/ios": "next",
+    "@capacitor/ios": "^7.0.0",
     "@eslint/js": "^8.56.0",
     "@rollup/wasm-node": "~4.19.0",
     "@semantic-release/changelog": "^6.0.3",
