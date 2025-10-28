@@ -1,3 +1,10 @@
+# [2.0.0-next.3](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.2...v2.0.0-next.3) (2025-10-28)
+
+
+### Bug Fixes
+
+* **ios:** use version instead of branch for SPM ([#10](https://github.com/ionic-team/capacitor-privacy-screen/issues/10)) ([ef847b0](https://github.com/ionic-team/capacitor-privacy-screen/commit/ef847b036bc1ca1b2a002ce84bc7ca815e810b29))
+
 # [2.0.0-next.2](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.1...v2.0.0-next.2) (2025-10-15)
 
 
