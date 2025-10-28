@@ -59,12 +59,12 @@ const { enabled } = await PrivacyScreen.isEnabled();
 
 ### Per-Screen Protection
 
-You can enable and disable the privacy screen on specific screens by calling `enable()` when entering a screen and `disable()` when leaving:
+You can enable and disable the privacy screen on specific screens by calling `enable()` when entering a screen and `disable()` when leaving. Note: Make sure to call the appropriate method whenever navigating between screens, including when using back navigation.
 
 ```typescript
 import { PrivacyScreen } from '@capacitor/privacy-screen';
 
-// When navigating to a secure screen
+// Enable privacy screen when navigating to a secure screen
 async function navigateToSecureScreen() {
   await PrivacyScreen.enable({
     android: { dimBackground: true },
@@ -73,10 +73,10 @@ async function navigateToSecureScreen() {
   // Navigate to your secure screen
 }
 
-// When navigating away from a secure screen
-async function navigateAwayFromSecureScreen() {
+// Disable when navigating to a non-secure screen
+async function navigateToPublicScreen() {
   await PrivacyScreen.disable();
-  // Navigate to your next screen
+  // Navigate to your public screen
 }
 ```
 
