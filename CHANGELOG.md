@@ -1,3 +1,10 @@
+# [2.0.0-next.4](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.3...v2.0.0-next.4) (2025-11-10)
+
+
+### Bug Fixes
+
+* **android:** use 'propName = value' assignment syntax in build.gradle files ([049f980](https://github.com/ionic-team/capacitor-privacy-screen/commit/049f980527ed17bd1b63d049477cc281850dacb8))
+
 # [2.0.0-next.3](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.2...v2.0.0-next.3) (2025-10-28)
 
 
