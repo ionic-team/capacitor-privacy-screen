@@ -1,6 +1,6 @@
 {
   "name": "@capacitor/privacy-screen",
-  "version": "2.0.0-next.4",
+  "version": "2.0.0-next.5",
   "description": "The Privacy Screen plugin provides functionality to prevent sensitive information from being visible in app switchers and when leaving an app.",
   "main": "./dist/plugin.cjs",
   "module": "./dist/plugin.mjs",

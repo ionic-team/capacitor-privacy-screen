@@ -1,3 +1,9 @@
+# [2.0.0-next.5](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.4...v2.0.0-next.5) (2025-11-17)
+
+
+* **android:** Update gradle dependencies to latest versions
+* **ios:** Minor updates to Package.swift
+
 # [2.0.0-next.4](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0-next.3...v2.0.0-next.4) (2025-11-10)
 
 
