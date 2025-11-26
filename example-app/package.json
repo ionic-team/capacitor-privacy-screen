@@ -10,10 +10,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.0",
     "@capacitor/app": "next",
-    "@capacitor/core": "next",
+    "@capacitor/core": "^8.0.0",
     "@capacitor/haptics": "next",
-    "@capacitor/ios": "next",
+    "@capacitor/ios": "^8.0.0",
     "@capacitor/keyboard": "next",
     "@capacitor/privacy-screen": "file:../",
     "@capacitor/status-bar": "next",
@@ -29,7 +30,7 @@
     "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
-    "@capacitor/cli": "next",
+    "@capacitor/cli": "^8.0.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-legacy": "^5.0.0",
