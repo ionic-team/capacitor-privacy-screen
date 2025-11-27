@@ -2,6 +2,8 @@ excluded:
   - 'node_modules'
   - 'ios/Pods' 
   - 'example-app'
+  - '.build'
+  - '.switfpm'
   
 opt_in_rules:
   - 'implicitly_unwrapped_optional'
