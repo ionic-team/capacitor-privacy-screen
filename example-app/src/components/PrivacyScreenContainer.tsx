@@ -55,7 +55,11 @@ const PrivacyScreenContainer: React.FC<ContainerProps> = () => {
 
   const showBiometricPrompt = async () => {
     try {
-      await Device.showBiometricPrompt({});
+      await Device.showBiometricPrompt(
+        {
+          iosBiometricsLocalizedReason: 'The app requires access to biometrics for authentication.'
+        }
+      );
       console.log('Biometric authentication successful');
     } catch (error) {
       console.log('Biometric authentication failed or was cancelled', error);

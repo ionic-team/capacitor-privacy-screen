@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@capacitor/app": "next",
@@ -18,27 +17,25 @@
     "@capacitor/privacy-screen": "file:../",
     "@capacitor/status-bar": "next",
     "@ionic-enterprise/identity-vault": "latest",
-    "@ionic/react": "^8.0.0",
-    "@ionic/react-router": "^8.0.0",
+    "@ionic/react": "^8.7.11",
+    "@ionic/react-router": "^8.7.11",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
-    "ionicons": "^7.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "ionicons": "^8.0.13",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
     "@capacitor/cli": "next",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-legacy": "^5.0.0",
-    "@vitejs/plugin-react": "^4.0.1",
-    "eslint": "^8.35.0",
-    "eslint-plugin-react": "^7.32.2",
-    "terser": "^5.4.0",
-    "typescript": "^5.1.6",
-    "vite": "~5.2.0"
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-legacy": "^7.2.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "terser": "^5.44.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4"
   },
   "description": "Privacy Screen Example App"
 }
