@@ -2,12 +2,26 @@ const tseslint = require('@typescript-eslint/eslint-plugin');
 const tseslintparser = require('@typescript-eslint/parser');
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 const eslintjs = require('@eslint/js');
+const globals = require('globals');
 
 module.exports = [
   {
+    ignores: [
+      'node_modules',
+      'dist',
+      'build',
+      '.build',
+      'example-app',
+      'eslint.config.*'
+    ]
+  },
+  {
     files: ['**/*.ts'],
-    ignores: ['node_modules', 'dist/**/*', 'build/**/*', 'example-app/**/*'],
     languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.es2020,
+      },
       parser: tseslintparser,
     },
     plugins: {
@@ -15,7 +29,6 @@ module.exports = [
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/ban-types': 'error',
       'no-array-constructor': 'off',
       '@typescript-eslint/no-array-constructor': 'error',
       '@typescript-eslint/no-duplicate-enum-values': 'error',
@@ -28,7 +41,10 @@ module.exports = [
       '@typescript-eslint/no-unnecessary-type-constraint': 'error',
       '@typescript-eslint/no-unsafe-declaration-merging': 'error',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+      ],
       '@typescript-eslint/no-var-requires': 'error',
       '@typescript-eslint/prefer-as-const': 'error',
       '@typescript-eslint/triple-slash-reference': 'error',
