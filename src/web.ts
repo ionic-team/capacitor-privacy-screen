@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { WebPlugin } from '@capacitor/core';
 import type { PrivacyScreenConfig, PrivacyScreenPlugin } from './definitions';
 

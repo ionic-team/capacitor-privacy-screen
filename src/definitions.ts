@@ -10,10 +10,10 @@ export interface PrivacyScreenConfig {
     dimBackground?: boolean;
 
     /**
-     * Controls whether screenshots can be taken while the app is in use.
-     * This uses `FLAG_SECURE` so it will also prevent the window from being displayed on a non-secure display, such as a TV or projector.`
-     * Note: Privacy screen protection in app switcher is always enabled when the plugin is enabled.
-     * @default false
+     * @deprecated This option is no longer necessary. FLAG_SECURE is now always applied when the privacy screen is enabled,
+     * which prevents screenshots and protects content in the app switcher. This option will be removed in a future version.
+     *
+     * If you need to control screenshot prevention separately, you can enable/disable the plugin as needed per screen.
      */
     preventScreenshots?: boolean;
 
@@ -37,6 +37,7 @@ export interface PrivacyScreenConfig {
   };
 }
 
+/* eslint-disable no-unused-vars */
 export interface PrivacyScreenPlugin {
   /**
    * Enable privacy screen protection
@@ -57,3 +58,4 @@ export interface PrivacyScreenPlugin {
    */
   isEnabled(): Promise<{ enabled: boolean }>;
 }
+/* eslint-enable no-unused-vars */
