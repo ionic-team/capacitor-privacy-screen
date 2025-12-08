@@ -1,3 +1,23 @@
+# [2.0.0](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.1...v2.0.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* **android:** deprecate preventScreenshots and make dialog more reliable ([a92d9bd](https://github.com/ionic-team/capacitor-privacy-screen/commit/a92d9bd6b46be99b1abb411ded49d0dc41fe0747))
+* **android:** replace kotlinOptions to support Kotlin 2.2.0 ([359e5f3](https://github.com/ionic-team/capacitor-privacy-screen/commit/359e5f3496ebdf571b03628b4c0d07ef617b5e69))
+* **android:** use 'propName = value' assignment syntax in build.gradle files ([049f980](https://github.com/ionic-team/capacitor-privacy-screen/commit/049f980527ed17bd1b63d049477cc281850dacb8))
+* **ios:** use version instead of branch for SPM ([#10](https://github.com/ionic-team/capacitor-privacy-screen/issues/10)) ([ef847b0](https://github.com/ionic-team/capacitor-privacy-screen/commit/ef847b036bc1ca1b2a002ce84bc7ca815e810b29))
+
+
+### Features
+
+* Capacitor 8 support ([bd15f56](https://github.com/ionic-team/capacitor-privacy-screen/commit/bd15f56817d4aa42d10c6ffeb35ae09094e432ff))
+
+
+### BREAKING CHANGES
+
+* Capacitor major version update requires major version update on the plugin.
+
 ## [Unreleased]
 
 ### Bug Fixes
