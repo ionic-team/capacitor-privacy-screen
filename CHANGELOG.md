@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.1...v1.1.2) (2025-12-11)
+
+
+### Bug Fixes
+
+* **android:** deprecate preventScreenshots and make dialog more reliable ([a92d9bd](https://github.com/ionic-team/capacitor-privacy-screen/commit/a92d9bd6b46be99b1abb411ded49d0dc41fe0747))
+* **ios:** use version instead of branch for SPM ([#10](https://github.com/ionic-team/capacitor-privacy-screen/issues/10)) ([ef847b0](https://github.com/ionic-team/capacitor-privacy-screen/commit/ef847b036bc1ca1b2a002ce84bc7ca815e810b29))
+
 ## [Unreleased]
 
 ### Bug Fixes
