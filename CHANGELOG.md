@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.2...v1.1.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* Use latest-7 for 1.x docs ([#24](https://github.com/ionic-team/capacitor-privacy-screen/issues/24)) ([d67a5e7](https://github.com/ionic-team/capacitor-privacy-screen/commit/d67a5e7c64aa1adf09432c23dcf80ed075435d68))
+
 ## [1.1.2](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.1...v1.1.2) (2025-12-11)
 
 
