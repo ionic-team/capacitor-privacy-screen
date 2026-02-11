@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.3...v1.1.4) (2026-02-11)
+
+
+### Bug Fixes
+
+* **android:** AGP 9.0 no longer supports `proguard-android.txt` ([#25](https://github.com/ionic-team/capacitor-privacy-screen/issues/25)) ([64bb002](https://github.com/ionic-team/capacitor-privacy-screen/commit/64bb002a3c8dc7c307441202793c705aeed93714))
+
 ## [1.1.3](https://github.com/ionic-team/capacitor-privacy-screen/compare/v1.1.2...v1.1.3) (2025-12-16)
 
 
