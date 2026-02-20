@@ -13,7 +13,7 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     ]
 
     private var isEnabled = false
-    private var screenProtectionViewController: UIViewController?
+    private var privacyWindow: UIWindow?
     private var blurEffect: UIBlurEffect.Style?
 
     override public func load() {
@@ -33,6 +33,8 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func enable(_ call: CAPPluginCall) {
+        blurEffect = nil
+
         if let config = call.getObject("ios"),
            let blurEffectString = config["blurEffect"] as? String {
             switch blurEffectString {
@@ -51,7 +53,9 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func disable(_ call: CAPPluginCall) {
         isEnabled = false
-        unobscureScreen()
+        DispatchQueue.main.async { [weak self] in
+            self?.unobscureScreen()
+        }
         call.resolve(["success": true])
     }
 
@@ -60,69 +64,71 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func obscureScreen() {
-        guard let window = getKeyWindow(),
-              var topViewController = window.rootViewController else {
+        guard privacyWindow == nil,
+              let windowScene = getWindowScene() else {
             return
         }
 
-        while let presentedVC = topViewController.presentedViewController {
-            topViewController = presentedVC
-        }
+        let window = UIWindow(windowScene: windowScene)
+        window.windowLevel = .alert + 1
+        window.rootViewController = UIViewController()
+        window.rootViewController?.view.isUserInteractionEnabled = false
 
-        if screenProtectionViewController == nil {
-            let protectionVC = createProtectionViewController()
-            topViewController.present(protectionVC, animated: false)
-            screenProtectionViewController = protectionVC
-        }
+        let contentView = createProtectionView()
+        contentView.frame = window.bounds
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        window.rootViewController?.view.addSubview(contentView)
+
+        window.isHidden = false
+        privacyWindow = window
     }
 
     private func unobscureScreen() {
-        screenProtectionViewController?.dismiss(animated: false)
-        screenProtectionViewController = nil
+        privacyWindow?.isHidden = true
+        privacyWindow = nil
     }
 
-    private func createProtectionViewController() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.modalPresentationStyle = .overFullScreen
-        viewController.view.isUserInteractionEnabled = false
-
+    private func createProtectionView() -> UIView {
         if let blurEffect = blurEffect {
+            let container = UIView()
+
             let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: blurEffect))
-            blurEffectView.frame = UIScreen.main.bounds
-            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            viewController.view.addSubview(blurEffectView)
-        } else {
-            let contentView = UIView(frame: UIScreen.main.bounds)
-            contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+            container.addSubview(blurEffectView)
+            NSLayoutConstraint.activate([
+                blurEffectView.topAnchor.constraint(equalTo: container.topAnchor),
+                blurEffectView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+                blurEffectView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+                blurEffectView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+            ])
 
-            if let launchImage = UIImage(named: "LaunchImage") ?? UIImage(named: "Splash") {
-                let imageView = UIImageView(image: launchImage)
-                imageView.frame = contentView.bounds
-                imageView.contentMode = .scaleAspectFill
-                imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                contentView.addSubview(imageView)
-            } else {
-                if let launchStoryboard = Bundle.main.object(forInfoDictionaryKey: "UILaunchStoryboardName") as? String,
-                   let launchVC = UIStoryboard(name: launchStoryboard, bundle: nil).instantiateInitialViewController() {
-                    contentView.backgroundColor = launchVC.view.backgroundColor
-                } else {
-                    contentView.backgroundColor = .white
-                }
-            }
-
-            viewController.view = contentView
+            return container
         }
 
-        return viewController
+        let contentView = UIView()
+
+        if let launchImage = UIImage(named: "LaunchImage") ?? UIImage(named: "Splash") {
+            let imageView = UIImageView(image: launchImage)
+            imageView.frame = contentView.bounds
+            imageView.contentMode = .scaleAspectFill
+            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            contentView.addSubview(imageView)
+        } else {
+            if let launchStoryboard = Bundle.main.object(forInfoDictionaryKey: "UILaunchStoryboardName") as? String,
+               let launchVC = UIStoryboard(name: launchStoryboard, bundle: nil).instantiateInitialViewController() {
+                contentView.backgroundColor = launchVC.view.backgroundColor
+            } else {
+                contentView.backgroundColor = .white
+            }
+        }
+
+        return contentView
     }
 
-    private func getKeyWindow() -> UIWindow? {
+    private func getWindowScene() -> UIWindowScene? {
         return UIApplication.shared.connectedScenes
-            .filter { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
             .compactMap { $0 as? UIWindowScene }
-            .first?
-            .windows
-            .first { $0.isKeyWindow }
+            .first
     }
 
     @objc private func applicationDidBecomeActive(_ notification: NSNotification) {
