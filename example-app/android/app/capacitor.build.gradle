@@ -7,8 +7,17 @@ android {
   }
 }
 
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
+
 dependencies {
+    implementation project(':capacitor-cordova-android')
+    implementation project(':capacitor-cordova-android-plugins')
     implementation project(':capacitor-app')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
