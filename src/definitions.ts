@@ -37,7 +37,6 @@ export interface PrivacyScreenConfig {
   };
 }
 
- 
 export interface PrivacyScreenPlugin {
   /**
    * Enable privacy screen protection
@@ -58,4 +57,3 @@ export interface PrivacyScreenPlugin {
    */
   isEnabled(): Promise<{ enabled: boolean }>;
 }
- 

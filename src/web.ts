@@ -1,4 +1,3 @@
- 
 import { WebPlugin } from '@capacitor/core';
 
 import type { PrivacyScreenConfig, PrivacyScreenPlugin } from './definitions';
