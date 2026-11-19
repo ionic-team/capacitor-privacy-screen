@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 ext {
-    androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.8.0'
-    androidxCoreVersion = project.hasProperty('androidxCoreVersion') ? rootProject.ext.androidxCoreVersion : '1.19.1'
+    androidxAppCompatVersion = rootProject.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.8.0'
+    androidxCoreVersion = rootProject.hasProperty('androidxCoreVersion') ? rootProject.ext.androidxCoreVersion : '1.19.1'
 }
 
 buildscript {
@@ -19,10 +19,10 @@ apply plugin: 'com.android.library'
 
 android {
     namespace = "com.capacitorjs.plugins.privacyscreen"
-    compileSdk = project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 37
+    compileSdk = rootProject.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 37
     defaultConfig {
         consumerProguardFiles "proguard-rules.pro"
-        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 26
+        minSdkVersion rootProject.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 26
         versionCode 1
         versionName "1.0"
     }
