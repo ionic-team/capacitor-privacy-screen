@@ -1,3 +1,10 @@
+## [2.0.2-next.1](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.1...v2.0.2-next.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* **android:** avoid implicit parent project property lookup deprecated in Gradle 9 ([#38](https://github.com/ionic-team/capacitor-privacy-screen/issues/38)) ([4d85077](https://github.com/ionic-team/capacitor-privacy-screen/commit/4d85077a040cd6e5bfca8da4608306aba3db0ea5))
+
 ## [2.0.1](https://github.com/ionic-team/capacitor-privacy-screen/compare/v2.0.0...v2.0.1) (2026-02-11)
 
 
